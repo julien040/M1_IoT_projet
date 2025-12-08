@@ -1,0 +1,23 @@
+{
+  "name": "harvest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "maps": "node googleMaps.ts",
+    "idelis": "node idelis.ts",
+    "start": "node mqtt.ts"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.4.2",
+    "@types/got": "^9.6.12",
+    "dotenv": "^17.2.3",
+    "got": "^14.6.5",
+    "mqtt": "^5.14.1"
+  }
+}
