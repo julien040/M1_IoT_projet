@@ -87,7 +87,7 @@ import Main from "../layout/main.astro";
     >
     <script>
         import mqtt from "mqtt";
-        let client = mqtt.connect("ws://test.mosquitto.org:8080");
+        let client = mqtt.connect("wss://test.mosquitto.org:8080");
 
 		const topic1 = "UPPA_M1_IOT/harvest/travelTime/car";
     	const topic2 = "UPPA_M1_IOT/harvest/travelTime/bus";
