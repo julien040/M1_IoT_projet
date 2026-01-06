@@ -2,7 +2,7 @@ import { connect } from "mqtt";
 import 'dotenv/config'
 import { getTravelTime } from "./googleMaps.ts";
 import { getBusTravelTime } from "./idelis.ts";
-import { pushMetrics } from "./grafana.ts";
+import { pushBusMetrics, pushCarMetrics } from "./grafana.ts";
 import type { getBusTravelTimeResult,etapeBus } from "./idelis.ts";
 
 const client = connect("mqtt://test.mosquitto.org");
@@ -13,17 +13,15 @@ const destination = "Avenue de l'université, 64000 Pau, France";
 client.on("connect", main);
 
 let alreadyRunning = false;
+let i = 0;
 
 const loop = () => {
     console.log("Calcul des temps de trajet...");
-    /* const message = `Hello MQTT! ${new Date().toISOString()}`;
-        client.publish("test/harvest/mqtt", message);
-        console.log(`Published: ${message}`); */
-    const tempsVoiture = getTravelTime(
+    /* const tempsVoiture = getTravelTime(
         origin,
         destination,
         process.env.MAPS_API_KEY!
-    );
+    ); */
     const bus: etapeBus = {
         tempsVersArretMinute: 4,
         ligne: "F",
@@ -36,7 +34,33 @@ const loop = () => {
     const topic3 = "UPPA_M1_IOT/harvest/nextBusDepartures";
 
     const tempsBus: Promise<getBusTravelTimeResult> = getBusTravelTime(bus);
-    Promise.all([tempsVoiture, tempsBus]).then(([voiture, bus]) => {
+
+    // Rafraichissement complet toutes les 10 itérations (10 minutes)
+    if (i % 20 === 0) {
+        console.log("Rafraichissement complet des données voiture...");
+        const tempsVoiture = getTravelTime(
+            origin,
+            destination,
+            process.env.MAPS_API_KEY!
+        );
+        
+        tempsVoiture.then((voiture) => {
+            if (!voiture) {
+                console.error("Erreur lors de la récupération du temps de trajet voiture");
+                return;
+            }
+            const messageVoiture = `${
+            voiture ? (voiture.dureeSeconde / 60).toFixed(0) : "N/A"
+        } min ${voiture ? voiture.dureeSeconde % 60 : "N/A"} sec`;
+
+            client.publish(topic1, messageVoiture);
+            console.log(`Published to ${topic1}: ${messageVoiture}`);
+            pushCarMetrics(voiture.dureeSeconde);
+        });        
+    }
+
+    
+    tempsBus.then((bus) => {
         /* console.log(`Temps voiture: ${voiture?.dureeSeconde} secondes`);
             if (bus.tempsTotalMinute === Infinity) {
                 console.log("Aucun bus disponible dans le futur proche");
@@ -44,20 +68,14 @@ const loop = () => {
                 console.log(`Temps bus: ${bus.tempsTotalMinute} minutes`);
                 console.log(`Prochains départs bus (minutes): ${bus.prochainsDeparts.join(", ")}`);
             } */
-        const messageVoiture = `${
-            voiture ? (voiture.dureeSeconde / 60).toFixed(0) : "N/A"
-        } min ${voiture ? voiture.dureeSeconde % 60 : "N/A"} sec`;
         const messageBus =
             bus.tempsTotalMinute === Infinity
                 ? "N/A"
                 : `${bus.tempsTotalMinute} min`;
         const messageDeparts =
             bus.prochainsDeparts.length > 0
-                ? bus.prochainsDeparts.splice(0, 5).join("min, ")+"min"
+                ? bus.prochainsDeparts.splice(0, 5).join("min, ") + "min"
                 : "N/A";
-
-        client.publish(topic1, messageVoiture);
-        console.log(`Published to ${topic1}: ${messageVoiture}`);
 
         client.publish(topic2, messageBus);
         console.log(`Published to ${topic2}: ${messageBus}`);
@@ -66,9 +84,9 @@ const loop = () => {
         console.log(`Published to ${topic3}: ${messageDeparts}`);
 
         // Push to Grafana
-        pushMetrics(voiture?.dureeSeconde, bus.tempsTotalMinute * 60);
-        console.log(`Metrics (voiture: ${voiture?.dureeSeconde}, bus: ${bus.tempsTotalMinute * 60}) pushed to Grafana`);
+        pushBusMetrics(bus.tempsTotalMinute * 60);
     });
+    i++;
 };
 
 function main() {
