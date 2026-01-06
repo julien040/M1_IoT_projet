@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  harvest:
+    image: ghcr.io/julien040/m1-iot-harvest
+    container_name: m1-iot-harvest
+    restart: unless-stopped
+    env_file:
+      - .env
+    network_mode: host
