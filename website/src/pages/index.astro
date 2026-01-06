@@ -1,0 +1,131 @@
+---
+import Main from "../layout/main.astro";
+---
+
+<Main title="Accueil">
+    <h2 class="text-lg font-semibold">Temps de trajet</h2>
+    <p class="text-sm mb-4 text-black/60">
+        Cette page est la version Web de l’écran ESP32. Elle affiche les temps
+        de trajet vers l’Université de Pau depuis la résidence Crous Ernest
+        Gabard (29 Avenue Honoré Baradat, Pau)
+    </p>
+    <div class="flex flex-col gap-4">
+        <div
+            class="flex p-4 bg-[#2CA0FA] text-white rounded-lg gap-4 items-center"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+            >
+                <path
+                    d="M18 11H6V6H18M16.5 17C16.1022 17 15.7206 16.842 15.4393 16.5607C15.158 16.2794 15 15.8978 15 15.5C15 15.1022 15.158 14.7206 15.4393 14.4393C15.7206 14.158 16.1022 14 16.5 14C16.8978 14 17.2794 14.158 17.5607 14.4393C17.842 14.7206 18 15.1022 18 15.5C18 15.8978 17.842 16.2794 17.5607 16.5607C17.2794 16.842 16.8978 17 16.5 17ZM7.5 17C7.10218 17 6.72064 16.842 6.43934 16.5607C6.15804 16.2794 6 15.8978 6 15.5C6 15.1022 6.15804 14.7206 6.43934 14.4393C6.72064 14.158 7.10218 14 7.5 14C7.89782 14 8.27936 14.158 8.56066 14.4393C8.84196 14.7206 9 15.1022 9 15.5C9 15.8978 8.84196 16.2794 8.56066 16.5607C8.27936 16.842 7.89782 17 7.5 17ZM4 16C4 16.88 4.39 17.67 5 18.22V20C5 20.2652 5.10536 20.5196 5.29289 20.7071C5.48043 20.8946 5.73478 21 6 21H7C7.26522 21 7.51957 20.8946 7.70711 20.7071C7.89464 20.5196 8 20.2652 8 20V19H16V20C16 20.2652 16.1054 20.5196 16.2929 20.7071C16.4804 20.8946 16.7348 21 17 21H18C18.2652 21 18.5196 20.8946 18.7071 20.7071C18.8946 20.5196 19 20.2652 19 20V18.22C19.61 17.67 20 16.88 20 16V6C20 2.5 16.42 2 12 2C7.58 2 4 2.5 4 6V16Z"
+                    fill="white"></path>
+            </svg>
+            <div class="flex-col">
+                <p class="text-xs text-white/70">BUS</p>
+                <p class="font-medium text-sm">
+                    Il vous faudra <span id="timeBus">N/A min</span>
+                </p>
+            </div>
+        </div>
+        <div
+            class="flex p-4 bg-[#45BD6B] text-white rounded-lg gap-4 items-center"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+            >
+                <path
+                    d="M5 11L6.5 6.5H17.5L19 11M17.5 16C17.1022 16 16.7206 15.842 16.4393 15.5607C16.158 15.2794 16 14.8978 16 14.5C16 14.1022 16.158 13.7206 16.4393 13.4393C16.7206 13.158 17.1022 13 17.5 13C17.8978 13 18.2794 13.158 18.5607 13.4393C18.842 13.7206 19 14.1022 19 14.5C19 14.8978 18.842 15.2794 18.5607 15.5607C18.2794 15.842 17.8978 16 17.5 16ZM6.5 16C6.10218 16 5.72064 15.842 5.43934 15.5607C5.15804 15.2794 5 14.8978 5 14.5C5 14.1022 5.15804 13.7206 5.43934 13.4393C5.72064 13.158 6.10218 13 6.5 13C6.89782 13 7.27936 13.158 7.56066 13.4393C7.84196 13.7206 8 14.1022 8 14.5C8 14.8978 7.84196 15.2794 7.56066 15.5607C7.27936 15.842 6.89782 16 6.5 16ZM18.92 6C18.72 5.42 18.16 5 17.5 5H6.5C5.84 5 5.28 5.42 5.08 6L3 12V20C3 20.2652 3.10536 20.5196 3.29289 20.7071C3.48043 20.8946 3.73478 21 4 21H5C5.26522 21 5.51957 20.8946 5.70711 20.7071C5.89464 20.5196 6 20.2652 6 20V19H18V20C18 20.2652 18.1054 20.5196 18.2929 20.7071C18.4804 20.8946 18.7348 21 19 21H20C20.2652 21 20.5196 20.8946 20.7071 20.7071C20.8946 20.5196 21 20.2652 21 20V12L18.92 6Z"
+                    fill="white"></path>
+            </svg>
+            <div class="flex-col">
+                <p class="text-xs text-white/70">VOITURE</p>
+                <p class="font-medium text-sm">
+                    Il vous faudra <span id="timeCar">N/A min</span>
+                </p>
+            </div>
+        </div>
+        <div
+            class="flex p-4 bg-[#BA55BC] text-white rounded-lg gap-4 items-center"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+            >
+                <path
+                    d="M18.65 9.4L19.4 8.65L17.5 6.8V4H16.5V7.2L18.65 9.4ZM6 13H4H13.4H6ZM4 22C3.71667 22 3.479 21.904 3.287 21.712C3.095 21.52 2.99933 21.2827 3 21V18.95C2.66667 18.6 2.41667 18.2127 2.25 17.788C2.08333 17.3633 2 16.934 2 16.5V7C2 5.51667 2.68767 4.479 4.063 3.887C5.43833 3.295 7.84233 2.99933 11.275 3C11.0583 3.3 10.871 3.61667 10.713 3.95C10.555 4.28333 10.4173 4.625 10.3 4.975C8.6 5.00833 7.28767 5.10833 6.363 5.275C5.43833 5.44167 4.80067 5.68333 4.45 6H10.075C10.025 6.33333 10 6.66667 10 7C10 7.33333 10.025 7.66667 10.075 8H4V11H11.275C11.5583 11.4 11.875 11.771 12.225 12.113C12.575 12.455 12.9667 12.7507 13.4 13H4V16C4 16.55 4.196 17.021 4.588 17.413C4.98 17.805 5.45067 18.0007 6 18H14C14.55 18 15.021 17.8043 15.413 17.413C15.805 17.0217 16.0007 16.5507 16 16V13.925C16.3333 13.975 16.6667 14 17 14C17.3333 14 17.6667 13.975 18 13.925V16.5C18 16.9333 17.9167 17.3627 17.75 17.788C17.5833 18.2133 17.3333 18.6007 17 18.95V21C17 21.2833 16.904 21.521 16.712 21.713C16.52 21.905 16.2827 22.0007 16 22H15C14.7167 22 14.4793 21.904 14.288 21.712C14.0967 21.52 14.0007 21.2827 14 21V20H6V21C6 21.2833 5.904 21.521 5.712 21.713C5.52 21.905 5.28267 22.0007 5 22H4ZM17 12C15.6167 12 14.4377 11.5123 13.463 10.537C12.4883 9.56167 12.0007 8.38267 12 7C12 5.63333 12.4833 4.45833 13.45 3.475C14.4167 2.49167 15.6 2 17 2C18.3833 2 19.5627 2.48733 20.538 3.462C21.5133 4.43667 22.0007 5.616 22 7C21.9993 8.384 21.5117 9.56333 20.537 10.538C19.5623 11.5127 18.3833 12 17 12ZM6.5 17C6.91667 17 7.271 16.8543 7.563 16.563C7.855 16.2717 8.00067 15.9173 8 15.5C7.99933 15.0827 7.85367 14.7287 7.563 14.438C7.27233 14.1473 6.918 14.0013 6.5 14C6.082 13.9987 5.728 14.1447 5.438 14.438C5.148 14.7313 5.002 15.0853 5 15.5C4.998 15.9147 5.144 16.269 5.438 16.563C5.732 16.857 6.086 17.0027 6.5 17ZM13.5 17C13.9167 17 14.271 16.8543 14.563 16.563C14.855 16.2717 15.0007 15.9173 15 15.5C14.9993 15.0827 14.8537 14.7287 14.563 14.438C14.2723 14.1473 13.918 14.0013 13.5 14C13.082 13.9987 12.728 14.1447 12.438 14.438C12.148 14.7313 12.002 15.0853 12 15.5C11.998 15.9147 12.144 16.269 12.438 16.563C12.732 16.857 13.086 17.0027 13.5 17Z"
+                    fill="white"></path>
+            </svg>
+            <div class="flex-col">
+                <p class="text-xs text-white/70">BUS</p>
+                <p class="font-medium text-sm">
+                    Le bus passera dans <span id="timeNextBus">N/A</span>
+                </p>
+            </div>
+        </div>
+    </div>
+	<p class="text-xs text-black/60 mt-2">
+		Les informations peuvent mettre jusqu'à 30 secondes à se
+		mettre à jour. Dernière mise à jour <span id="lastUpdate">N/A</span>
+	</p>
+
+    <a
+        href="https://m1uppa.grafana.net/public-dashboards/603909983a9749928f01e88cf376a2e1"
+        class="mt-6 text-sm hover:underline p-4 w-full bg-white rounded-lg block text-center"
+        target="_blank"
+        rel="noopener noreferrer">Voir le dashboard Grafana</a
+    >
+    <script>
+        import mqtt from "mqtt";
+        let client = mqtt.connect("ws://test.mosquitto.org:8080");
+
+		const topic1 = "UPPA_M1_IOT/harvest/travelTime/car";
+    	const topic2 = "UPPA_M1_IOT/harvest/travelTime/bus";
+    	const topic3 = "UPPA_M1_IOT/harvest/nextBusDepartures";
+
+		const timeCarElem = document.getElementById("timeCar");
+		const timeBusElem = document.getElementById("timeBus");
+		const timeNextBusElem = document.getElementById("timeNextBus");
+
+
+		client.on("connect", () => {
+			console.log("Connecté au broker MQTT");
+			client.subscribe([topic1, topic2, topic3], (err) => {
+				if (!err) {
+					console.log(`Abonné aux topics: ${topic1}, ${topic2}, ${topic3}`);
+				} else {
+					console.error("Erreur d'abonnement:", err);
+				}
+			});
+		});
+
+		client.on("message", (topic, message) => {
+			const msg = message.toString();
+			console.log(`Message reçu sur le topic ${topic}: ${msg}`);
+			if (topic === topic1 && timeCarElem) {
+				timeCarElem.textContent = msg;
+			} else if (topic === topic2 && timeBusElem) {
+				timeBusElem.textContent = msg;
+			} else if (topic === topic3 && timeNextBusElem) {
+				timeNextBusElem.textContent = msg;
+			}
+			const now = new Date();
+			const formattedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+			const lastUpdateElem = document.getElementById("lastUpdate");
+			if (lastUpdateElem) {
+				lastUpdateElem.textContent = formattedTime;
+			}
+		});
+
+    </script>
+</Main>

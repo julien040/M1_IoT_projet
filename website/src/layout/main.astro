@@ -1,0 +1,41 @@
+---
+const { title } = Astro.props;
+import "../styles/global.css";
+
+export interface Props {
+    title?: string;
+}
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title ? `${title}` : "M1 IoT Projet"}</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body class="max-w-xl bg-blue-50 mx-auto min-h-screen font-sans md:p-8 p-4">
+        <header class="flex justify-between mb-6">
+            <div class="flex flex-col">
+                <a href="/" class="text-lg font-semibold">M1 Projet IoT</a>
+                <p class="text-xs text-black/50">
+                    Julien CAGNIART &amp; Chayma ABBAS
+                </p>
+            </div>
+            <a
+                href="/rapport.pdf"
+                class="text-sm hover:underline"
+                target="_blank"
+                rel="noopener noreferrer">Voir le rapport PDF</a
+            >
+        </header>
+        <slot />
+    </body>
+</html>
