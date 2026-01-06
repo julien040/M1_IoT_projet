@@ -60,3 +60,4 @@ async function getTravelTime(
 
 
 export {getTravelTime};
+export type {TravelTimeResponse};
